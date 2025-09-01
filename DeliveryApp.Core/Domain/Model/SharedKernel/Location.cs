@@ -32,7 +32,7 @@ public class Location : ValueObject
         return Math.Abs(from.X - to.X) + Math.Abs(from.Y - to.Y);
     }
 
-    public static Location GetRandomLocation() => new(Random.Shared.Next(1, 11), Random.Shared.Next(1, 11));
+    public static Location GetRandomLocation() => new(Random.Shared.Next(LowerBoundaryX, UpperBoundaryX + 1), Random.Shared.Next(LowerBoundaryY, UpperBoundaryY + 1));
 
     [ExcludeFromCodeCoverage]
     protected override IEnumerable<object> GetEqualityComponents()

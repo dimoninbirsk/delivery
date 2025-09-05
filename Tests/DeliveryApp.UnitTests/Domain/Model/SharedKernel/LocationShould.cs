@@ -15,7 +15,7 @@ public class LocationShould
         //Arrange
 
         //Act
-        var location = new Location(x, y);
+        var location = Location.Create(x, y).Value;
 
         //Assert
         location.Should().NotBeNull();
@@ -33,9 +33,10 @@ public class LocationShould
         //Arrange
 
         //Act
-
+        var location = Location.Create(x, y);
         //Assert
-        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => new Location(x, y));
+        location.IsSuccess.Should().BeFalse();
+        location.Error.Should().NotBeNull();
     }
 
     [Fact]
@@ -44,8 +45,8 @@ public class LocationShould
         //Arrange
 
         //Act
-        var firstLocation = new Location(2, 2);
-        var secondLocation = new Location(2, 2);
+        var firstLocation = Location.Create(2, 2);
+        var secondLocation = Location.Create(2, 2);
 
         //Assert
         Assert.Equal(firstLocation, secondLocation);
@@ -58,8 +59,8 @@ public class LocationShould
         //Arrange
 
         //Act
-        var firstLocation = new Location(3, 2);
-        var secondLocation = new Location(2, 2);
+        var firstLocation = Location.Create(3, 2);
+        var secondLocation = Location.Create(2, 2);
 
         //Assert
         Assert.NotEqual(firstLocation, secondLocation);
@@ -90,11 +91,12 @@ public class LocationShould
         int expectedDistance)
     {
         //Arrange
-
+        var from = Location.Create(fromX, fromY).Value;
         //Act
-        var distance = Location.GetDistance(new Location(fromX, fromY), new Location(toX, toY));
+        var distance = from.GetDistance(Location.Create(toX, toY).Value);
 
         //Assert
-        distance.Should().Be(expectedDistance);
+        distance.IsSuccess.Should().BeTrue();
+        distance.Value.Should().Be(expectedDistance);
     }
 }

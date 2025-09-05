@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using CSharpFunctionalExtensions;
+using Primitives;
 
 namespace DeliveryApp.Core.Domain.Model.SharedKernel;
 
@@ -18,18 +19,25 @@ public class Location : ValueObject
     {
     }
 
-    public Location(int x, int y) : this()
+    private Location(int x, int y) : this()
     {
-        if (x < LowerBoundaryX || x > UpperBoundaryX) throw new ArgumentOutOfRangeException(nameof(x));
-        if (y < LowerBoundaryY || y > UpperBoundaryY) throw new ArgumentOutOfRangeException(nameof(y));
-
         X = x;
         Y = y;
     }
 
-    public static int GetDistance(Location from, Location to)
+    public Result<int, Error> GetDistance(Location to)
     {
-        return Math.Abs(from.X - to.X) + Math.Abs(from.Y - to.Y);
+        if (to == null) return GeneralErrors.ValueIsRequired(nameof(to));
+
+        return Math.Abs(this.X - to.X) + Math.Abs(this.Y - to.Y);
+    }
+
+    public static Result<Location, Error> Create(int x, int y)
+    {
+        if (x < LowerBoundaryX || x > UpperBoundaryX) return GeneralErrors.ValueIsInvalid(nameof(x));
+        if (y < LowerBoundaryY || y > UpperBoundaryY) return GeneralErrors.ValueIsInvalid(nameof(x));
+
+        return new Location(x, y);
     }
 
     public static Location GetRandomLocation() => new(Random.Shared.Next(LowerBoundaryX, UpperBoundaryX + 1), Random.Shared.Next(LowerBoundaryY, UpperBoundaryY + 1));

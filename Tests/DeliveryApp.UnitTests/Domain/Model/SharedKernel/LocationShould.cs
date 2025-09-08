@@ -1,7 +1,6 @@
 ﻿using Xunit;
 using DeliveryApp.Core.Domain.Model.SharedKernel;
 using FluentAssertions;
-using System;
 
 namespace DeliveryApp.UnitTests.Domain.Model.SharedKernel;
 

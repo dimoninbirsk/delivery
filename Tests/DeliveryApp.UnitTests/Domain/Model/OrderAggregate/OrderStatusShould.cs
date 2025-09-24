@@ -1,10 +1,5 @@
 ﻿using DeliveryApp.Core.Domain.Model.OrderAggregate;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DeliveryApp.UnitTests.Domain.Model.OrderAggregate;
